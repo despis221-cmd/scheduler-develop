@@ -20,7 +20,7 @@ public class UserService {
     // 엔티티 생성을 User 생성자에 위임해 캡슐화 유지
     @Transactional
     public UserResponseDto saveUser(UserCreateRequestDto requestDto) {
-        User user = new User(requestDto.getName(), requestDto.getEmail());
+        User user = new User(requestDto.getName(), requestDto.getEmail(), requestDto.getPassword());
         return new UserResponseDto(userRepository.save(user));
     }
 

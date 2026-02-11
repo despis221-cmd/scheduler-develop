@@ -1,9 +1,11 @@
 package org.example.schedulerdevelop.dto;
 
+import lombok.Getter;
 import org.example.schedulerdevelop.entity.User;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class UserResponseDto {
     private Long id;
     private String name;

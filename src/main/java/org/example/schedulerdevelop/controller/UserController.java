@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
-    // 유저 수정 - 유저명만 수정 가능
+    // 유저 수정 - 유저명, 이메일 수정 가능
     @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequestDto updateDto) {
         return ResponseEntity.ok(userService.updateUser(userId, updateDto));
@@ -45,7 +45,7 @@ public class UserController {
     // 유저 삭제
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        String username = userService.deleteUser(userId);
-        return ResponseEntity.ok(username + "이(가) 삭제되었습니다.");
+        String name = userService.deleteUser(userId);
+        return ResponseEntity.ok(name + "이(가) 삭제되었습니다.");
     }
 }

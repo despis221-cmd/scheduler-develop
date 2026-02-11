@@ -20,13 +20,17 @@ public class User extends Timestamped {
     @Column(nullable = false, unique = true)
     private String email;
 
-    public User(String name, String email) {
+    @Column(nullable = false)
+    private String password;
+
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public void update(String name, String email) {
-        this.name = name;
-        this.email = email;
+        if (name != null) this.name = name;
+        if (email != null) this.email = email;
     }
 }
