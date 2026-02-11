@@ -1,6 +1,7 @@
 package org.example.schedulerdevelop.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
@@ -15,7 +16,6 @@ public class ScheduleCreateRequestDto {
     @Size(max = 200, message = "내용은 200자 이내여야 합니다.")
     private String content;
 
-    @NotBlank(message = "이름은 필수입니다.")
-    @Size(max = 30, message = "이름은 30자 이내여야 합니다.")
-    private String name;
+    @NotNull(message = "유저 ID는 필수입니다.")
+    private Long userId;
 }

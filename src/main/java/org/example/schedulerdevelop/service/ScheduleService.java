@@ -5,8 +5,10 @@ import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
 import org.example.schedulerdevelop.entity.Schedule;
+import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.ScheduleNotFoundException;
 import org.example.schedulerdevelop.repository.ScheduleRepository;
+import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
-    // 엔티티 생성을 DTO에서 하지 않고 Schedule 생성자에 위임해 캡슐화 유지
+    // 엔티티 생성을 Schedule 생성자에 위임해 캡슐화 유지
     @Transactional
     public ScheduleResponseDto saveSchedule(ScheduleCreateRequestDto requestDto) {
-        Schedule schedule = new Schedule(requestDto);
-        Schedule savedSchedule = scheduleRepository.save(schedule);
-        return new ScheduleResponseDto(savedSchedule);
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow();
+        Schedule schedule = new Schedule(requestDto, user);
+        return new ScheduleResponseDto(scheduleRepository.save(schedule));
     }
 
     @Transactional(readOnly = true)
@@ -35,8 +38,7 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public ScheduleResponseDto getSchedule(Long id) {
-        Schedule schedule = findScheduleById(id);
-        return new ScheduleResponseDto(schedule);
+        return new ScheduleResponseDto(findScheduleById(id));
     }
 
     // 더티 체킹으로 별도 save 호출 없이 자동 반영
