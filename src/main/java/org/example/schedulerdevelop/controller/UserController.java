@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,31 +22,38 @@ public class UserController {
     // 유저 생성 - 201 Created 반환
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto requestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(requestDto));
+        UserResponseDto responseDto = userService.saveUser(requestDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseDto);
     }
 
     // 전체 유저 조회
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getUsers() {
-        return ResponseEntity.ok(userService.getUsers());
+        List<UserResponseDto> users = userService.getUsers();
+        return ResponseEntity.ok(users);
     }
 
     // 단건 유저 조회
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.getUser(userId));
+        UserResponseDto user = userService.getUser(userId);
+        return ResponseEntity.ok(user);
     }
 
     // 유저 수정 - 유저명, 이메일 수정 가능
     @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequestDto updateDto) {
-        return ResponseEntity.ok(userService.updateUser(userId, updateDto));
+        UserResponseDto updatedUser = userService.updateUser(userId, updateDto);
+        return ResponseEntity.ok(updatedUser);
     }
 
     // 유저 삭제
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long userId) {
         String name = userService.deleteUser(userId);
-        return ResponseEntity.ok(name + "이(가) 삭제되었습니다.");
+        String message = name + "이(가) 삭제되었습니다.";
+        return ResponseEntity.ok(Map.of("message", message));
     }
 }

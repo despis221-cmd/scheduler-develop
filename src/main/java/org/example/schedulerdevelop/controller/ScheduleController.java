@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,33 +27,39 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleCreateRequestDto requestDto, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);
         ScheduleResponseDto responseDto = scheduleService.saveSchedule(requestDto, loginUserId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseDto);
     }
 
     // 전체 일정 조회 API
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> getSchedules() {
-        return ResponseEntity.ok(scheduleService.getSchedules());
+        List<ScheduleResponseDto> schedules = scheduleService.getSchedules();
+        return ResponseEntity.ok(schedules);
     }
 
     // 선택 일정 조회 API
     @GetMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long scheduleId) {
-        return ResponseEntity.ok(scheduleService.getSchedule(scheduleId));
+        ScheduleResponseDto schedule = scheduleService.getSchedule(scheduleId);
+        return ResponseEntity.ok(schedule);
     }
 
     // 일정 수정 API - 삭제된 일정의 제목을 응답에 포함해 사용자 피드백 제공
     @PatchMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleUpdateRequestDto updateDto, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);
-        return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, updateDto, loginUserId));
+        ScheduleResponseDto updated = scheduleService.updateSchedule(scheduleId, updateDto, loginUserId);
+        return ResponseEntity.ok(updated);
     }
 
     // 일정 삭제 API
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<String> deleteSchedule(@PathVariable Long scheduleId, HttpSession session) {
+    public ResponseEntity<Map<String, String>> deleteSchedule(@PathVariable Long scheduleId, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);
         String title = scheduleService.deleteSchedule(scheduleId, loginUserId);
-        return ResponseEntity.ok(title + "이(가) 삭제되었습니다.");
+        String message = title + "이(가) 삭제되었습니다.";
+        return ResponseEntity.ok(Map.of("message", message));
     }
 }
