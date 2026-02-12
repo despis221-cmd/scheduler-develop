@@ -18,14 +18,13 @@ public class AuthService {
     public static final String SESSION_USER_ID = "userId";
 
     @Transactional(readOnly = true)
-    public Long login(AuthLoginRequestDto loginRequest, HttpSession session) {
+    public void login(AuthLoginRequestDto loginRequest, HttpSession session) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new AuthFailException(ErrorMessage.AUTH_FAILED));
         if (!user.getPassword().equals(loginRequest.getPassword())) {
             throw new AuthFailException(ErrorMessage.AUTH_FAILED);
         }
         session.setAttribute(SESSION_USER_ID, user.getId());
-        return user.getId();
     }
 
     public void logout(HttpSession session) {
