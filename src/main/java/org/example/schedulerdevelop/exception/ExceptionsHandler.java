@@ -30,6 +30,23 @@ public class ExceptionsHandler {
         return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    // 401 Unauthorized
+    @ExceptionHandler(AuthRequiredException.class)
+    public ResponseEntity<Map<String, String>> handleAuthRequiredException(AuthRequiredException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthFailException.class)
+    public ResponseEntity<Map<String, String>> handleAuthFailException(AuthFailException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    // 403 Forbidden
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<Map<String, String>> handleAuthorizationException(AuthorizationException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
     // 409 Conflict
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<Map<String, String>> handleDuplicateEmailException(DuplicateEmailException ex) {
