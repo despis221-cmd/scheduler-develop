@@ -32,6 +32,6 @@ public class Schedule extends Timestamped {
     }
 
     public void update(String title) {
-        this.title = title;
+        if (title != null && !title.isBlank()) this.title = title;
     }
 }

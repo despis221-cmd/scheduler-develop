@@ -30,7 +30,7 @@ public class User extends Timestamped {
     }
 
     public void update(String name, String email) {
-        if (name != null) this.name = name;
-        if (email != null) this.email = email;
+        if (name != null && !name.isBlank()) this.name = name;
+        if (email != null && !email.isBlank()) this.email = email;
     }
 }

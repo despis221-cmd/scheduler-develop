@@ -5,6 +5,7 @@ import org.example.schedulerdevelop.dto.UserCreateRequestDto;
 import org.example.schedulerdevelop.dto.UserResponseDto;
 import org.example.schedulerdevelop.dto.UserUpdateRequestDto;
 import org.example.schedulerdevelop.entity.User;
+import org.example.schedulerdevelop.exception.DuplicateEmailException;
 import org.example.schedulerdevelop.exception.UserNotFoundException;
 import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class UserService {
     // 엔티티 생성을 User 생성자에 위임해 캡슐화 유지
     @Transactional
     public UserResponseDto saveUser(UserCreateRequestDto requestDto) {
+        if (userRepository.existsByEmail(requestDto.getEmail())) {
+            throw new DuplicateEmailException("이미 사용 중인 이메일입니다.");
+        }
         User user = new User(requestDto.getName(), requestDto.getEmail(), requestDto.getPassword());
         return new UserResponseDto(userRepository.save(user));
     }
@@ -43,6 +47,11 @@ public class UserService {
     @Transactional
     public UserResponseDto updateUser(Long id, UserUpdateRequestDto updateDto) {
         User user = findUserById(id);
+        if (updateDto.getEmail() != null && !updateDto.getEmail().isBlank()) {
+            if (!user.getEmail().equals(updateDto.getEmail()) && userRepository.existsByEmail(updateDto.getEmail())) {
+                throw new DuplicateEmailException("이미 사용 중인 이메일입니다.");
+            }
+        }
         user.update(updateDto.getName(), updateDto.getEmail());
         return new UserResponseDto(user);
     }
