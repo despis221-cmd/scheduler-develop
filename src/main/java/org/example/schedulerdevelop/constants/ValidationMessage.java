@@ -13,15 +13,15 @@ public class ValidationMessage {
     public static final String PASSWORD_MIN_LENGTH = "비밀번호는 최소 " + ValidationConstraints.PASSWORD_MIN_LENGTH + "글자 이상이어야 합니다.";
     public static final String PASSWORD_PATTERN = "비밀번호는 영문과 숫자를 포함해야 합니다.";
 
+    public static final String COMMENT_CONTENT_REQUIRED = "댓글 내용은 필수입니다.";
+    public static final String SCHEDULE_ID_REQUIRED = "일정 ID는 필수입니다.";
+    public static final String USER_ID_REQUIRED = "유저 ID는 필수입니다.";
+
     public static final String TITLE_REQUIRED = "제목은 필수입니다.";
     public static final String TITLE_MAX_LENGTH = "제목은 " + ValidationConstraints.TITLE_MAX_LENGTH + "자 이내여야 합니다.";
 
     public static final String CONTENT_REQUIRED = "내용은 필수입니다.";
     public static final String CONTENT_MAX_LENGTH = "내용은 " + ValidationConstraints.CONTENT_MAX_LENGTH + "자 이내여야 합니다.";
-
-    public static final String COMMENT_CONTENT_REQUIRED = "댓글 내용은 필수입니다.";
-    public static final String SCHEDULE_ID_REQUIRED = "일정 ID는 필수입니다.";
-    public static final String USER_ID_REQUIRED = "유저 ID는 필수입니다.";
 
     private ValidationMessage() {
     }

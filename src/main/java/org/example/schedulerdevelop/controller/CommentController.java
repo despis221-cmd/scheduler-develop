@@ -1,0 +1,62 @@
+package org.example.schedulerdevelop.controller;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.example.schedulerdevelop.dto.CommentCreateRequestDto;
+import org.example.schedulerdevelop.dto.CommentResponseDto;
+import org.example.schedulerdevelop.service.CommentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/comments")
+public class CommentController {
+    private final CommentService commentService;
+
+    @PostMapping
+    public ResponseEntity<CommentResponseDto> createComment(@Valid @RequestBody CommentCreateRequestDto requestDto) {
+        CommentResponseDto responseDto = commentService.saveComment(requestDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CommentResponseDto>> getAllComments() {
+        List<CommentResponseDto> comments = commentService.getAllComments();
+        return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/schedule/{scheduleId}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsBySchedule(@PathVariable Long scheduleId) {
+        List<CommentResponseDto> comments = commentService.getCommentsByScheduleId(scheduleId);
+        return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/{commentId}")
+    public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long commentId) {
+        CommentResponseDto comment = commentService.getComment(commentId);
+        return ResponseEntity.ok(comment);
+    }
+
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(
+            @PathVariable Long commentId,
+            @RequestBody Map<String, String> request) {
+        String content = request.get("content");
+        CommentResponseDto updated = commentService.updateComment(commentId, content);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Map<String, String>> deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.ok(Map.of("message", "댓글이 삭제되었습니다."));
+    }
+
+}
