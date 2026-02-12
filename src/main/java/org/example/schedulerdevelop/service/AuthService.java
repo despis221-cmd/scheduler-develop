@@ -1,12 +1,12 @@
 package org.example.schedulerdevelop.service;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedulerdevelop.dto.AuthLoginRequestDto;
 import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.AuthFailException;
 import org.example.schedulerdevelop.exception.AuthRequiredException;
+import org.example.schedulerdevelop.constants.ErrorMessage;
 import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +20,9 @@ public class AuthService {
     @Transactional(readOnly = true)
     public Long login(AuthLoginRequestDto loginRequest, HttpSession session) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new AuthFailException("이메일 또는 비밀번호가 일치하지 않습니다."));
+                .orElseThrow(() -> new AuthFailException(ErrorMessage.AUTH_FAILED));
         if (!user.getPassword().equals(loginRequest.getPassword())) {
-            throw new AuthFailException("이메일 또는 비밀번호가 일치하지 않습니다.");
+            throw new AuthFailException(ErrorMessage.AUTH_FAILED);
         }
         session.setAttribute(SESSION_USER_ID, user.getId());
         return user.getId();
@@ -35,7 +35,7 @@ public class AuthService {
     public Long getLoginUserId(HttpSession session) {
         Long userId = (Long) session.getAttribute(SESSION_USER_ID);
         if (userId == null) {
-            throw new AuthRequiredException("로그인이 필요합니다.");
+            throw new AuthRequiredException(ErrorMessage.AUTH_REQUIRED);
         }
         return userId;
     }

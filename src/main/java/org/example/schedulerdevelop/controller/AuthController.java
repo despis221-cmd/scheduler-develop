@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedulerdevelop.dto.AuthLoginRequestDto;
+import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +23,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@Valid @RequestBody AuthLoginRequestDto loginRequest, HttpSession session) {
         authService.login(loginRequest, session);
-        return ResponseEntity.ok(Map.of("message", "로그인 성공"));
+        return ResponseEntity.ok(Map.of("message", ResponseMessage.LOGIN_SUCCESS));
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
         authService.logout(session);
-        return ResponseEntity.ok(Map.of("message", "로그아웃되었습니다."));
+        return ResponseEntity.ok(Map.of("message", ResponseMessage.LOGOUT_SUCCESS));
     }
 }

@@ -2,12 +2,14 @@ package org.example.schedulerdevelop.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.example.schedulerdevelop.constants.ValidationConstraints;
+import org.example.schedulerdevelop.constants.ValidationMessage;
 
 @Getter
 public class ScheduleUpdateRequestDto {
-    @Size(max = 30, message = "제목은 30자 이내여야 합니다.")
+    @Size(max = ValidationConstraints.TITLE_MAX_LENGTH, message = ValidationMessage.TITLE_MAX_LENGTH)
     private String title;
 
-    @Size(max = 200, message = "내용은 200자 이내여야 합니다.")
+    @Size(max = ValidationConstraints.CONTENT_MAX_LENGTH, message = ValidationMessage.CONTENT_MAX_LENGTH)
     private String content;
 }

@@ -7,6 +7,7 @@ import org.example.schedulerdevelop.dto.UserUpdateRequestDto;
 import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.DuplicateEmailException;
 import org.example.schedulerdevelop.exception.UserNotFoundException;
+import org.example.schedulerdevelop.constants.ErrorMessage;
 import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class UserService {
     @Transactional
     public UserResponseDto saveUser(UserCreateRequestDto requestDto) {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new DuplicateEmailException("이미 사용 중인 이메일입니다.");
+            throw new DuplicateEmailException(ErrorMessage.EMAIL_ALREADY_EXISTS);
         }
         User user = new User(requestDto.getName(), requestDto.getEmail(), requestDto.getPassword());
         return new UserResponseDto(userRepository.save(user));
@@ -49,7 +50,7 @@ public class UserService {
         User user = findUserById(id);
         if (updateDto.getEmail() != null && !updateDto.getEmail().isBlank()) {
             if (!user.getEmail().equals(updateDto.getEmail()) && userRepository.existsByEmail(updateDto.getEmail())) {
-                throw new DuplicateEmailException("이미 사용 중인 이메일입니다.");
+                throw new DuplicateEmailException(ErrorMessage.EMAIL_ALREADY_EXISTS);
             }
         }
         user.update(updateDto.getName(), updateDto.getEmail());
@@ -68,7 +69,7 @@ public class UserService {
     // 공통 조회 메서드 - ScheduleService에서도 유저 조회 시 재사용
     public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new UserNotFoundException("선택한 유저가 존재하지 않습니다.")
+                () -> new UserNotFoundException(ErrorMessage.USER_NOT_FOUND)
         );
     }
 }

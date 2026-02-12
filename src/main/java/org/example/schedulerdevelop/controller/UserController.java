@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedulerdevelop.dto.UserCreateRequestDto;
 import org.example.schedulerdevelop.dto.UserResponseDto;
 import org.example.schedulerdevelop.dto.UserUpdateRequestDto;
+import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,6 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long userId) {
         String name = userService.deleteUser(userId);
-        String message = name + "이(가) 삭제되었습니다.";
-        return ResponseEntity.ok(Map.of("message", message));
+        return ResponseEntity.ok(Map.of("message", ResponseMessage.deleted(name)));
     }
 }

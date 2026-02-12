@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
+import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.service.AuthService;
 import org.example.schedulerdevelop.service.ScheduleService;
 import org.springframework.http.HttpStatus;
@@ -59,7 +60,6 @@ public class ScheduleController {
     public ResponseEntity<Map<String, String>> deleteSchedule(@PathVariable Long scheduleId, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);
         String title = scheduleService.deleteSchedule(scheduleId, loginUserId);
-        String message = title + "이(가) 삭제되었습니다.";
-        return ResponseEntity.ok(Map.of("message", message));
+        return ResponseEntity.ok(Map.of("message", ResponseMessage.deleted(title)));
     }
 }

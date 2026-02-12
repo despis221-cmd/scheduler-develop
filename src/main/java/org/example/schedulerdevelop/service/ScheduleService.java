@@ -8,6 +8,7 @@ import org.example.schedulerdevelop.entity.Schedule;
 import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.AuthorizationException;
 import org.example.schedulerdevelop.exception.ScheduleNotFoundException;
+import org.example.schedulerdevelop.constants.ErrorMessage;
 import org.example.schedulerdevelop.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,14 +65,14 @@ public class ScheduleService {
     // 공통 조회 메서드로 중복 제거
     private Schedule findScheduleById(Long id) {
         return scheduleRepository.findById(id).orElseThrow(
-                () -> new ScheduleNotFoundException("선택한 일정이 존재하지 않습니다.")
+                () -> new ScheduleNotFoundException(ErrorMessage.SCHEDULE_NOT_FOUND)
         );
     }
 
     // 일정 소유권 검증 메서드
     private void checkScheduleOwnership(Schedule schedule, Long loginUserId) {
         if (!schedule.getUser().getId().equals(loginUserId)) {
-            throw new AuthorizationException("본인의 일정만 수정/삭제할 수 있습니다.");
+            throw new AuthorizationException(ErrorMessage.AUTHORIZATION_FAILED);
         }
     }
 }
