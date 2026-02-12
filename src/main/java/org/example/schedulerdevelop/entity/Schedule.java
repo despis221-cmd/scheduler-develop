@@ -3,7 +3,6 @@ package org.example.schedulerdevelop.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 
 @Entity
 @Getter
@@ -25,9 +24,9 @@ public class Schedule extends Timestamped {
     private User user;
 
     // Controller, Service가 필드를 직접 조작하지 않도록 캡슐화
-    public Schedule(ScheduleCreateRequestDto requestDto, User user) {
-        this.title = requestDto.getTitle();
-        this.content = requestDto.getContent();
+    public Schedule(String title, String content, User user) {
+        this.title = title;
+        this.content = content;
         this.user = user;
     }
 

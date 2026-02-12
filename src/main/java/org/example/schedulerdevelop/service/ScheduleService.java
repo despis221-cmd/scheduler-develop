@@ -5,6 +5,7 @@ import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
 import org.example.schedulerdevelop.entity.Schedule;
+import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.AuthorizationException;
 import org.example.schedulerdevelop.exception.ScheduleNotFoundException;
 import org.example.schedulerdevelop.repository.ScheduleRepository;
@@ -22,8 +23,8 @@ public class ScheduleService {
     // 엔티티 생성을 Schedule 생성자에 위임해 캡슐화 유지
     @Transactional
     public ScheduleResponseDto saveSchedule(ScheduleCreateRequestDto requestDto, Long loginUserId) {
-        var user = userService.findUserById(loginUserId);
-        Schedule schedule = new Schedule(requestDto, user);
+        User user = userService.findUserById(loginUserId);
+        Schedule schedule = new Schedule(requestDto.getTitle(), requestDto.getContent(), user);
         return new ScheduleResponseDto(scheduleRepository.save(schedule));
     }
 
