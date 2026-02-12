@@ -19,6 +19,10 @@ public class ValidationMessage {
     public static final String CONTENT_REQUIRED = "내용은 필수입니다.";
     public static final String CONTENT_MAX_LENGTH = "내용은 " + ValidationConstraints.CONTENT_MAX_LENGTH + "자 이내여야 합니다.";
 
+    public static final String COMMENT_CONTENT_REQUIRED = "댓글 내용은 필수입니다.";
+    public static final String SCHEDULE_ID_REQUIRED = "일정 ID는 필수입니다.";
+    public static final String USER_ID_REQUIRED = "유저 ID는 필수입니다.";
+
     private ValidationMessage() {
     }
 }

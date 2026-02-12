@@ -7,6 +7,7 @@ public class ErrorMessage {
 
     public static final String SCHEDULE_NOT_FOUND = "선택한 일정이 존재하지 않습니다.";
     public static final String USER_NOT_FOUND = "선택한 유저가 존재하지 않습니다.";
+    public static final String COMMENT_NOT_FOUND = "선택한 댓글이 존재하지 않습니다.";
 
     public static final String EMAIL_ALREADY_EXISTS = "이미 사용 중인 이메일입니다.";
 

@@ -1,13 +1,14 @@
 package org.example.schedulerdevelop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.schedulerdevelop.config.PasswordEncoder;
+import org.example.schedulerdevelop.constants.ErrorMessage;
 import org.example.schedulerdevelop.dto.UserCreateRequestDto;
 import org.example.schedulerdevelop.dto.UserResponseDto;
 import org.example.schedulerdevelop.dto.UserUpdateRequestDto;
 import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.DuplicateEmailException;
 import org.example.schedulerdevelop.exception.UserNotFoundException;
-import org.example.schedulerdevelop.constants.ErrorMessage;
 import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 엔티티 생성을 User 생성자에 위임해 캡슐화 유지
     @Transactional
@@ -25,7 +27,8 @@ public class UserService {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
             throw new DuplicateEmailException(ErrorMessage.EMAIL_ALREADY_EXISTS);
         }
-        User user = new User(requestDto.getName(), requestDto.getEmail(), requestDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        User user = new User(requestDto.getName(), requestDto.getEmail(), encodedPassword);
         return new UserResponseDto(userRepository.save(user));
     }
 
