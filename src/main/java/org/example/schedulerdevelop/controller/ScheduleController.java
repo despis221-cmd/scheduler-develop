@@ -3,12 +3,13 @@ package org.example.schedulerdevelop.controller;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
-import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.service.AuthService;
 import org.example.schedulerdevelop.service.ScheduleService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,14 @@ public class ScheduleController {
     public ResponseEntity<List<ScheduleResponseDto>> getSchedules() {
         List<ScheduleResponseDto> schedules = scheduleService.getSchedules();
         return ResponseEntity.ok(schedules);
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<ScheduleResponseDto>> getSchedulesWithPaging(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<ScheduleResponseDto> schedulePage = scheduleService.getSchedulesWithPaging(page, size);
+        return ResponseEntity.ok(schedulePage);
     }
 
     // 선택 일정 조회 API

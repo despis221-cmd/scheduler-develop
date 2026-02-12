@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ScheduleResponseDto {
     private Long id;
+    private Long commentCount;
     private String title;
     private String content;
     private String name;
@@ -21,5 +22,10 @@ public class ScheduleResponseDto {
         this.name = schedule.getUser().getName();
         this.createdAt = schedule.getCreatedAt();
         this.modifiedAt = schedule.getModifiedAt();
+    }
+
+    public ScheduleResponseDto(Schedule schedule, Long commentCount) {
+        this(schedule);
+        this.commentCount = commentCount;
     }
 }
