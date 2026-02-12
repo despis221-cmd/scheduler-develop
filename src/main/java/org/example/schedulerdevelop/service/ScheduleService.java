@@ -5,12 +5,9 @@ import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
 import org.example.schedulerdevelop.entity.Schedule;
-import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.AuthorizationException;
 import org.example.schedulerdevelop.exception.ScheduleNotFoundException;
-import org.example.schedulerdevelop.exception.UserNotFoundException;
 import org.example.schedulerdevelop.repository.ScheduleRepository;
-import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     // 엔티티 생성을 Schedule 생성자에 위임해 캡슐화 유지
     @Transactional
     public ScheduleResponseDto saveSchedule(ScheduleCreateRequestDto requestDto, Long loginUserId) {
-        User user = userRepository.findById(loginUserId)
-                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+        var user = userService.findUserById(loginUserId);
         Schedule schedule = new Schedule(requestDto, user);
         return new ScheduleResponseDto(scheduleRepository.save(schedule));
     }
