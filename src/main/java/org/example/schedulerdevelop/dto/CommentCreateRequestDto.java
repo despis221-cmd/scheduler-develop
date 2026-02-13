@@ -1,7 +1,6 @@
 package org.example.schedulerdevelop.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.example.schedulerdevelop.constants.ValidationMessage;
 
@@ -9,7 +8,4 @@ import org.example.schedulerdevelop.constants.ValidationMessage;
 public class CommentCreateRequestDto {
     @NotBlank(message = ValidationMessage.COMMENT_CONTENT_REQUIRED)
     private String content;
-
-    @NotNull(message = ValidationMessage.SCHEDULE_ID_REQUIRED)
-    private Long scheduleId;
 }

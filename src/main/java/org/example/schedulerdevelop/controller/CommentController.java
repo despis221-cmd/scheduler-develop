@@ -24,9 +24,9 @@ public class CommentController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<CommentResponseDto> createComment(@Valid @RequestBody CommentCreateRequestDto requestDto, HttpSession session) {
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long scheduleId, @Valid @RequestBody CommentCreateRequestDto requestDto, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);
-        CommentResponseDto responseDto = commentService.saveComment(requestDto, loginUserId);
+        CommentResponseDto responseDto = commentService.saveComment(scheduleId, requestDto, loginUserId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(responseDto);

@@ -25,9 +25,9 @@ public class CommentService {
     private final UserService userService;
 
     @Transactional
-    public CommentResponseDto saveComment(CommentCreateRequestDto requestDto, Long loginUserId) {
+    public CommentResponseDto saveComment(Long scheduleId, CommentCreateRequestDto requestDto, Long loginUserId) {
         User user = userService.findUserById(loginUserId); // 데이터 무결성
-        Schedule schedule = findScheduleById(requestDto.getScheduleId());
+        Schedule schedule = findScheduleById(scheduleId);
         Comment comment = new Comment(requestDto.getContent(), schedule, user);
         return new CommentResponseDto(commentRepository.save(comment));
     }
