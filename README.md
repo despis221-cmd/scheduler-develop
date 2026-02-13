@@ -27,8 +27,8 @@
 | 선택 조회 | GET    | /schedules/{scheduleId} |
 | 일정 수정 | PATCH  | /schedules/{scheduleId} |
 | 일정 삭제 | DELETE | /schedules/{scheduleId} |
-| 댓글 생성 | POST   | /schedules/{scheduleId}/comments |
-| 댓글 조회 | GET    | /schedules/{scheduleId}/comments |
+| 댓글 생성 | POST   | comments |
+| 댓글 조회 | GET    | /comments/schedules/{scheduleId} |
 | 댓글 수정 | PATCH  | /comments/{commentId} |
 | 댓글 삭제 | DELETE | /comments/{commentId} |
 

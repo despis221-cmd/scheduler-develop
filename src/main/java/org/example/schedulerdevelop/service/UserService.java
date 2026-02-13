@@ -7,6 +7,7 @@ import org.example.schedulerdevelop.dto.UserCreateRequestDto;
 import org.example.schedulerdevelop.dto.UserResponseDto;
 import org.example.schedulerdevelop.dto.UserUpdateRequestDto;
 import org.example.schedulerdevelop.entity.User;
+import org.example.schedulerdevelop.exception.AuthorizationException;
 import org.example.schedulerdevelop.exception.DuplicateEmailException;
 import org.example.schedulerdevelop.exception.UserNotFoundException;
 import org.example.schedulerdevelop.repository.UserRepository;
@@ -49,8 +50,11 @@ public class UserService {
 
     // 유저명, 이메일 수정 - 더티 체킹으로 별도 save 호출 없이 자동 반영
     @Transactional
-    public UserResponseDto updateUser(Long id, UserUpdateRequestDto updateDto) {
+    public UserResponseDto updateUser(Long id, UserUpdateRequestDto updateDto, Long loginUserId) {
         User user = findUserById(id);
+        if (!user.getId().equals(loginUserId)) {
+            throw new AuthorizationException(ErrorMessage.AUTHORIZATION_FAILED);
+        }
         if (updateDto.getEmail() != null && !updateDto.getEmail().isBlank()) {
             if (!user.getEmail().equals(updateDto.getEmail()) && userRepository.existsByEmail(updateDto.getEmail())) {
                 throw new DuplicateEmailException(ErrorMessage.EMAIL_ALREADY_EXISTS);
@@ -62,8 +66,11 @@ public class UserService {
 
     // 유저 삭제 - 삭제 전 유저명을 미리 저장해 응답에 활용
     @Transactional
-    public String deleteUser(Long id) {
+    public String deleteUser(Long id, Long loginUserId) {
         User user = findUserById(id);
+        if (!user.getId().equals(loginUserId)) {
+            throw new AuthorizationException(ErrorMessage.AUTHORIZATION_FAILED);
+        }
         String name = user.getName();
         userRepository.delete(user);
         return name;
