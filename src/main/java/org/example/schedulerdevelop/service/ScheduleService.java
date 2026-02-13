@@ -5,6 +5,7 @@ import org.example.schedulerdevelop.constants.ErrorMessage;
 import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
+import org.example.schedulerdevelop.entity.Comment;
 import org.example.schedulerdevelop.entity.Schedule;
 import org.example.schedulerdevelop.entity.User;
 import org.example.schedulerdevelop.exception.AuthorizationException;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static org.example.schedulerdevelop.constants.ValidationConstraints.DEFAULT_PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -36,25 +39,11 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDto> getSchedules() {
-        return scheduleRepository.findAllByOrderByModifiedAtDesc()
-                .stream()
-                .map(ScheduleResponseDto::new)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
     public Page<ScheduleResponseDto> getSchedulesWithPaging(int page, int size) {
-        // 디폴트 페이지 크기 적용
-        if (size <= 0) {
-            size = 10;
-        }
-
-        // 수정일 기준 내림차순 정렬
+        if (size <= 0 || size > 100) size = DEFAULT_PAGE_SIZE;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "modifiedAt"));
         Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByModifiedAtDesc(pageable);
 
-        // 각 일정에 대한 댓글 개수를 조회하여 DTO 변환
         return schedulePage.map(schedule -> {
             Long commentCount = commentRepository.countByScheduleId(schedule.getId());
             return new ScheduleResponseDto(schedule, commentCount);
@@ -63,7 +52,9 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public ScheduleResponseDto getSchedule(Long id) {
-        return new ScheduleResponseDto(findScheduleById(id));
+        Schedule schedule = findScheduleById(id);
+        List<Comment> comments = commentRepository.findAllByScheduleId(id);
+        return new ScheduleResponseDto(schedule, comments);
     }
 
     // 더티 체킹으로 별도 save 호출 없이 자동 반영

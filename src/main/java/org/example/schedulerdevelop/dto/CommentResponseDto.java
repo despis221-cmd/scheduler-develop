@@ -11,7 +11,7 @@ public class CommentResponseDto {
     private final String content;
     private final Long scheduleId;
     private final Long userId;
-    private final String userName;
+    private final String name;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
@@ -20,7 +20,7 @@ public class CommentResponseDto {
         this.content = comment.getContent();
         this.scheduleId = comment.getSchedule().getId();
         this.userId = comment.getUser().getId();
-        this.userName = comment.getUser().getName();
+        this.name = comment.getUser().getName();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }
