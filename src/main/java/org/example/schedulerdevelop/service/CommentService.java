@@ -7,6 +7,7 @@ import org.example.schedulerdevelop.dto.CommentResponseDto;
 import org.example.schedulerdevelop.entity.Comment;
 import org.example.schedulerdevelop.entity.Schedule;
 import org.example.schedulerdevelop.entity.User;
+import org.example.schedulerdevelop.exception.AuthorizationException;
 import org.example.schedulerdevelop.exception.CommentNotFoundException;
 import org.example.schedulerdevelop.exception.ScheduleNotFoundException;
 import org.example.schedulerdevelop.repository.CommentRepository;
@@ -24,8 +25,8 @@ public class CommentService {
     private final UserService userService;
 
     @Transactional
-    public CommentResponseDto saveComment(CommentCreateRequestDto requestDto) {
-        User user = userService.findUserById(requestDto.getUserId());
+    public CommentResponseDto saveComment(CommentCreateRequestDto requestDto, Long loginUserId) {
+        User user = userService.findUserById(loginUserId);
         Schedule schedule = findScheduleById(requestDto.getScheduleId());
         Comment comment = new Comment(requestDto.getContent(), schedule, user);
         return new CommentResponseDto(commentRepository.save(comment));
@@ -54,15 +55,17 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto updateComment(Long id, String content) {
+    public CommentResponseDto updateComment(Long id, String content, Long loginUserId) {
         Comment comment = findCommentById(id);
+        validateCommentOwner(comment, loginUserId);
         comment.update(content);
         return new CommentResponseDto(comment);
     }
 
     @Transactional
-    public void deleteComment(Long id) {
+    public void deleteComment(Long id, Long loginUserId) {
         Comment comment = findCommentById(id);
+        validateCommentOwner(comment, loginUserId);
         commentRepository.delete(comment);
     }
 
@@ -76,5 +79,11 @@ public class CommentService {
         return scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new ScheduleNotFoundException(ErrorMessage.SCHEDULE_NOT_FOUND)
         );
+    }
+
+    private void validateCommentOwner(Comment comment, Long loginUserId) {
+        if (!comment.getUser().getId().equals(loginUserId)) {
+            throw new AuthorizationException(ErrorMessage.AUTHORIZATION_FAILED);
+        }
     }
 }

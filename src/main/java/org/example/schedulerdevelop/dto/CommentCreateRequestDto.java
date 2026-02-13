@@ -12,7 +12,4 @@ public class CommentCreateRequestDto {
 
     @NotNull(message = ValidationMessage.SCHEDULE_ID_REQUIRED)
     private Long scheduleId;
-
-    @NotNull(message = ValidationMessage.USER_ID_REQUIRED)
-    private Long userId;
 }
