@@ -14,23 +14,23 @@
 
 **Base URL**: http://localhost:8080
 
-| 기능    | Method | URL                                          |
-| :--- | :--- | :--- |
-| 회원가입  | POST   | /users/signup                                |
-| 유저 조회 | GET    | /users/{userId}                              |
-| 유저 수정 | PATCH  | /users/{userId}                              |
-| 유저 삭제 | DELETE | /users/{userId}                              |
-| 로그인   | POST   | /users/login                                 |
-| 로그아웃  | POST   | /users/logout                                |
-| 일정 생성 | POST   | /schedules                                   |
-| 전체 조회 | GET    | /schedules                                   |
-| 선택 조회 | GET    | /schedules/{scheduleId}                      |
-| 일정 수정 | PATCH  | /schedules/{scheduleId}                      |
-| 일정 삭제 | DELETE | /schedules/{scheduleId}                      |
-| 댓글 생성 | POST   | /schedules/{scheduleId}/comments             |
-| 댓글 조회 | GET    | /schedules/{scheduleId}/comments             |
-| 댓글 수정 | PATCH  | /schedules/{scheduleId}/comments/{commentId} |
-| 댓글 삭제 | DELETE | /schedules/{scheduleId}/comments/{commentId} |
+| 기능     | Method | URL                                          |
+|:-------| :--- | :--- |
+| 회원가입   | POST   | /users/signup                                |
+| 유저 조회  | GET    | /users/{userId}                              |
+| 유저 수정  | PATCH  | /users/{userId}                              |
+| 유저 삭제  | DELETE | /users/{userId}                              |
+| 로그인    | POST   | /users/login                                 |
+| 로그아웃   | POST   | /users/logout                                |
+| 일정 생성  | POST   | /schedules                                   |
+| 페이징 조회 | GET    | /schedules                                   |
+| 선택 조회  | GET    | /schedules/{scheduleId}                      |
+| 일정 수정  | PATCH  | /schedules/{scheduleId}                      |
+| 일정 삭제  | DELETE | /schedules/{scheduleId}                      |
+| 댓글 생성  | POST   | /schedules/{scheduleId}/comments             |
+| 댓글 조회  | GET    | /schedules/{scheduleId}/comments             |
+| 댓글 수정  | PATCH  | /schedules/{scheduleId}/comments/{commentId} |
+| 댓글 삭제  | DELETE | /schedules/{scheduleId}/comments/{commentId} |
 
 <br>
 
@@ -167,7 +167,7 @@
 ```
 <br>
 
-#### 2-2. 일정 전체 조회
+#### 2-2. 페이징 조회
 - Method: `GET`
 - URL: `/schedules`
 - Query Parameters: `page`(기본값 0), `size`(기본값 10)

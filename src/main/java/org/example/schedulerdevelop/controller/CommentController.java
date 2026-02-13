@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.dto.CommentCreateRequestDto;
 import org.example.schedulerdevelop.dto.CommentResponseDto;
+import org.example.schedulerdevelop.dto.CommentUpdateRequestDto;
 import org.example.schedulerdevelop.service.AuthService;
 import org.example.schedulerdevelop.service.CommentService;
 import org.springframework.http.HttpStatus;
@@ -39,10 +40,9 @@ public class CommentController {
 
 
     @PatchMapping("/{commentId}")
-    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody Map<String, String> request, HttpSession session) {
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @Valid @RequestBody CommentUpdateRequestDto requestDto, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);
-        String content = request.get("content");
-        CommentResponseDto updated = commentService.updateComment(commentId, content, loginUserId);
+        CommentResponseDto updated = commentService.updateComment(commentId, requestDto.getContent(), loginUserId);
         return ResponseEntity.ok(updated);
     }
 
