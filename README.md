@@ -8,29 +8,29 @@
 - **Framework**: Spring Boot
 - **Database**: MySQL
 - **ORM**: Spring Data JPA
-- **IDE**: IntelliJ IDEA
+- **IDE**: IntelliJ
 
 <br>
 
 **Base URL**: http://localhost:8080
 
-| 기능    | Method | URL |
+| 기능    | Method | URL                                          |
 | :--- | :--- | :--- |
-| 회원가입  | POST   | /users/signup |
-| 유저 조회 | GET    | /users/{userId} |
-| 유저 수정 | PATCH  | /users/{userId} |
-| 유저 삭제 | DELETE | /users/{userId} |
-| 로그인   | POST   | /users/login |
-| 로그아웃  | POST   | /users/logout |
-| 일정 생성 | POST   | /schedules |
-| 전체 조회 | GET    | /schedules |
-| 선택 조회 | GET    | /schedules/{scheduleId} |
-| 일정 수정 | PATCH  | /schedules/{scheduleId} |
-| 일정 삭제 | DELETE | /schedules/{scheduleId} |
-| 댓글 생성 | POST   | comments |
-| 댓글 조회 | GET    | /comments/schedules/{scheduleId} |
-| 댓글 수정 | PATCH  | /comments/{commentId} |
-| 댓글 삭제 | DELETE | /comments/{commentId} |
+| 회원가입  | POST   | /users/signup                                |
+| 유저 조회 | GET    | /users/{userId}                              |
+| 유저 수정 | PATCH  | /users/{userId}                              |
+| 유저 삭제 | DELETE | /users/{userId}                              |
+| 로그인   | POST   | /users/login                                 |
+| 로그아웃  | POST   | /users/logout                                |
+| 일정 생성 | POST   | /schedules                                   |
+| 전체 조회 | GET    | /schedules                                   |
+| 선택 조회 | GET    | /schedules/{scheduleId}                      |
+| 일정 수정 | PATCH  | /schedules/{scheduleId}                      |
+| 일정 삭제 | DELETE | /schedules/{scheduleId}                      |
+| 댓글 생성 | POST   | /schedules/{scheduleId}/comments             |
+| 댓글 조회 | GET    | /schedules/{scheduleId}/comments             |
+| 댓글 수정 | PATCH  | /schedules/{scheduleId}/comments/{commentId} |
+| 댓글 삭제 | DELETE | /schedules/{scheduleId}/comments/{commentId} |
 
 <br>
 
@@ -333,8 +333,8 @@
 
 #### 3-3. 댓글 수정
 - Method: `PATCH`
-- URL: `/comments/{commentId}`
-- Path Parameters: `commentId`
+- URL: `/schedules/{scheduleId}/comments/{commentId}`
+- Path Parameters: `scheduleId`, `commentId`
 - Content-Type: `application/json`
 - Status Code: `200 OK`
 
@@ -360,8 +360,8 @@
 
 #### 3-4. 댓글 삭제
 - Method: `DELETE`
-- URL: `/comments/{commentId}`
-- Path Parameter: `commentId`
+- URL: `/schedules/{scheduleId}/comments/{commentId}`
+- Path Parameter: `scheduleId`, `commentId`
 - Status Code: `200 OK`
 
 #### Response Body

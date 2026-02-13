@@ -24,7 +24,7 @@ public class UserController {
     private final AuthService authService;
 
     // 유저 생성 - 201 Created 반환
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto requestDto) {
         UserResponseDto responseDto = userService.saveUser(requestDto);
         return ResponseEntity

@@ -2,6 +2,7 @@ package org.example.schedulerdevelop.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.schedulerdevelop.constants.ResponseMessage;
 import org.example.schedulerdevelop.dto.CommentCreateRequestDto;
 import org.example.schedulerdevelop.dto.CommentResponseDto;
 import org.example.schedulerdevelop.service.CommentService;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/schedules/{scheduleId}/comments")
 public class CommentController {
     private final CommentService commentService;
 
@@ -27,36 +28,23 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentResponseDto>> getAllComments() {
-        List<CommentResponseDto> comments = commentService.getAllComments();
-        return ResponseEntity.ok(comments);
-    }
-
-    @GetMapping("/schedule/{scheduleId}")
     public ResponseEntity<List<CommentResponseDto>> getCommentsBySchedule(@PathVariable Long scheduleId) {
         List<CommentResponseDto> comments = commentService.getCommentsByScheduleId(scheduleId);
         return ResponseEntity.ok(comments);
     }
 
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long commentId) {
-        CommentResponseDto comment = commentService.getComment(commentId);
-        return ResponseEntity.ok(comment);
-    }
 
     @PatchMapping("/{commentId}")
-    public ResponseEntity<CommentResponseDto> updateComment(
-            @PathVariable Long commentId,
-            @RequestBody Map<String, String> request) {
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody Map<String, String> request) {
         String content = request.get("content");
         CommentResponseDto updated = commentService.updateComment(commentId, content);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Map<String, String>> deleteComment(@PathVariable Long commentId) {
+    public ResponseEntity<Map<String, String>> deleteComment(@PathVariable Long scheduleId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
-        return ResponseEntity.ok(Map.of("message", "댓글이 삭제되었습니다."));
+        return ResponseEntity.ok(Map.of("message", ResponseMessage.COMMENT_DELETED));
     }
 
 }

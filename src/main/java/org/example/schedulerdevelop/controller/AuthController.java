@@ -3,8 +3,8 @@ package org.example.schedulerdevelop.controller;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.schedulerdevelop.dto.AuthLoginRequestDto;
 import org.example.schedulerdevelop.constants.ResponseMessage;
+import org.example.schedulerdevelop.dto.AuthLoginRequestDto;
 import org.example.schedulerdevelop.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/users")
 public class AuthController {
     private final AuthService authService;
 

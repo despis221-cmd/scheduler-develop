@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedulerdevelop.constants.ResponseMessage;
+import org.example.schedulerdevelop.constants.ValidationConstraints;
 import org.example.schedulerdevelop.dto.ScheduleCreateRequestDto;
 import org.example.schedulerdevelop.dto.ScheduleResponseDto;
 import org.example.schedulerdevelop.dto.ScheduleUpdateRequestDto;
@@ -14,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,17 +34,9 @@ public class ScheduleController {
                 .body(responseDto);
     }
 
-    // 전체 일정 조회 API
+    // 일정 전체 조회 API - 페이징
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> getSchedules() {
-        List<ScheduleResponseDto> schedules = scheduleService.getSchedules();
-        return ResponseEntity.ok(schedules);
-    }
-
-    @GetMapping("/page")
-    public ResponseEntity<Page<ScheduleResponseDto>> getSchedulesWithPaging(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<ScheduleResponseDto>> getSchedulesWithPaging(@RequestParam(defaultValue = ValidationConstraints.DEFAULT_PAGE + "") int page, @RequestParam(defaultValue = ValidationConstraints.DEFAULT_PAGE_SIZE + "") int size) {
         Page<ScheduleResponseDto> schedulePage = scheduleService.getSchedulesWithPaging(page, size);
         return ResponseEntity.ok(schedulePage);
     }
