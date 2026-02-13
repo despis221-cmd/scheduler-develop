@@ -32,6 +32,7 @@ public class CommentController {
                 .body(responseDto);
     }
 
+    // 댓글 조회 인증 불필요
     @GetMapping
     public ResponseEntity<List<CommentResponseDto>> getCommentsBySchedule(@PathVariable Long scheduleId) {
         List<CommentResponseDto> comments = commentService.getCommentsByScheduleId(scheduleId);

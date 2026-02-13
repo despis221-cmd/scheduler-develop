@@ -30,6 +30,7 @@ public class Schedule extends Timestamped {
         this.user = user;
     }
 
+    // 일정 수정 시 내용은 수정 안 함 (이전 과제 연결)
     public void update(String title) {
         if (title != null && !title.isBlank()) this.title = title;
     }

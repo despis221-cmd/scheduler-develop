@@ -57,6 +57,7 @@ public class ScheduleController {
     }
 
     // 일정 삭제 API
+    // Map<String, String> - JSON 형태로 일관된 응답 제공: {"message": "일정 제목이(가) 삭제되었습니다"}
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity<Map<String, String>> deleteSchedule(@PathVariable Long scheduleId, HttpSession session) {
         Long loginUserId = authService.getLoginUserId(session);

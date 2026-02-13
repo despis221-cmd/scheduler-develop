@@ -26,7 +26,7 @@ public class CommentService {
 
     @Transactional
     public CommentResponseDto saveComment(CommentCreateRequestDto requestDto, Long loginUserId) {
-        User user = userService.findUserById(loginUserId);
+        User user = userService.findUserById(loginUserId); // 데이터 무결성
         Schedule schedule = findScheduleById(requestDto.getScheduleId());
         Comment comment = new Comment(requestDto.getContent(), schedule, user);
         return new CommentResponseDto(commentRepository.save(comment));
@@ -41,6 +41,7 @@ public class CommentService {
                 .toList();
     }
 
+    // 댓글 임의 수정 방지
     @Transactional
     public CommentResponseDto updateComment(Long id, String content, Long loginUserId) {
         Comment comment = findCommentById(id);
@@ -56,12 +57,14 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
+    // 댓글 조회 시 일관된 예외 처리
     private Comment findCommentById(Long id) {
         return commentRepository.findById(id).orElseThrow(
                 () -> new CommentNotFoundException(ErrorMessage.COMMENT_NOT_FOUND)
         );
     }
 
+    // 단순 존재 여부 확인만 필요하므로 Repository 직접 사용이 더 간단
     private Schedule findScheduleById(Long scheduleId) {
         return scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new ScheduleNotFoundException(ErrorMessage.SCHEDULE_NOT_FOUND)

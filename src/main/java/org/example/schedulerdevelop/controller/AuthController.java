@@ -20,6 +20,7 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
 
+    // HttpSession 파라미터 - 로그인 성공 시 세션에 userId를 저장
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@Valid @RequestBody AuthLoginRequestDto loginRequest, HttpSession session) {
         authService.login(loginRequest, session);

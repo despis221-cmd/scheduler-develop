@@ -27,7 +27,7 @@ import static org.example.schedulerdevelop.constants.ValidationConstraints.DEFAU
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
-    private final UserService userService;
+    private final UserService userService; // User 조회 로직 재사용
     private final CommentRepository commentRepository;
 
     // 엔티티 생성을 Schedule 생성자에 위임해 캡슐화 유지
@@ -40,7 +40,7 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public Page<ScheduleResponseDto> getSchedulesWithPaging(int page, int size) {
-        if (size <= 0 || size > 100) size = DEFAULT_PAGE_SIZE;
+        if (size <= 0 || size > 100) size = DEFAULT_PAGE_SIZE; // 과도한 값 요청 시 서버 부하 방지
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "modifiedAt"));
         Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByModifiedAtDesc(pageable);
 

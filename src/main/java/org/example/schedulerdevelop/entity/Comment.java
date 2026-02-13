@@ -32,6 +32,7 @@ public class Comment extends Timestamped {
         this.user = user;
     }
 
+    // 부분 업데이트 지원 및 잘못된 입력으로 인한 데이터 손실 방지
     public void update(String content) {
         if (content != null && !content.isBlank()) this.content = content;
     }

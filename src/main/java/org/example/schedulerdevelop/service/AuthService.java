@@ -19,6 +19,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     public static final String SESSION_USER_ID = "userId";
 
+    // 보안상 두 경우 모두 동일한 메시지로 처리하여 정보 노출 방지
     @Transactional(readOnly = true)
     public void login(AuthLoginRequestDto loginRequest, HttpSession session) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
@@ -29,6 +30,7 @@ public class AuthService {
         session.setAttribute(SESSION_USER_ID, user.getId());
     }
 
+    // 로그아웃 시 모든 세션 정보를 제거하는 것이 보안상 안전
     public void logout(HttpSession session) {
         session.invalidate();
     }

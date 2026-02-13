@@ -38,6 +38,7 @@ public class UserService {
     }
 
     // 유저명, 이메일 수정 - 더티 체킹으로 별도 save 호출 없이 자동 반영
+    // 이메일 변경 시 중복 체크 - 불필요한 DB 조회 방지
     @Transactional
     public UserResponseDto updateUser(Long id, UserUpdateRequestDto updateDto, Long loginUserId) {
         User user = findUserById(id);
