@@ -14,8 +14,8 @@
 
 **Base URL**: http://localhost:8080
 
-| 기능     | Method | URL                                          |
-|:-------| :--- | :--- |
+| 기능     | Method | URL |
+| :--- | :--- | :--- |
 | 회원가입   | POST   | /users/signup                                |
 | 유저 조회  | GET    | /users/{userId}                              |
 | 유저 수정  | PATCH  | /users/{userId}                              |
@@ -112,8 +112,10 @@
 - Status Code: `200 OK`
 - 
 #### Response Body
-```
-유저 이름이(가) 삭제되었습니다.
+```json
+{
+  "message": "유저 이름이(가) 삭제되었습니다."
+}
 ```
 <br>
 
@@ -130,12 +132,26 @@
     "password": "비밀번호"
 }
 ```
+
+#### Response Body
+```json
+{
+  "message": "로그인 성공"
+}
+```
 <br>
 
 #### 1-6. 로그아웃
 - Method: `POST`
 - URL: `/users/logout`
 - Status Code: `200 OK`
+- 
+#### Response Body
+```json
+{
+  "message": "로그아웃되었습니다."
+}
+```
 <br>
 
 ### 2. 일정
@@ -161,6 +177,8 @@
     "title": "일정 제목",
     "content": "일정 내용",
     "name": "작성자 이름",
+    "commentCount": null,
+    "comments": null,
     "createdAt": "0000-00-00 00:00:00",
     "modifiedAt": "0000-00-00 00:00:00"
 }
@@ -183,6 +201,7 @@
       "content": "일정 내용",
       "commentCount": 0,
       "name": "작성자 이름",
+      "comments": null,
       "createdAt": "0000-00-00 00:00:00",
       "modifiedAt": "0000-00-00 00:00:00"
     },
@@ -192,6 +211,7 @@
       "content": "일정 내용",
       "commentCount": 0,
       "name": "작성자 이름",
+      "comments": null,
       "createdAt": "0000-00-00 00:00:00",
       "modifiedAt": "0000-00-00 00:00:00"
     }
@@ -207,8 +227,8 @@
 
 #### 2-3. 일정 선택 조회
 
-- Method**: `GET`
-- URL**: `/schedules/{scheduleId}`
+- Method: `GET`
+- URL: `/schedules/{scheduleId}`
 - Path Parameters: `scheduleId`
 - Status Code: `200 OK`
 
@@ -219,6 +239,7 @@
     "title": "일정 제목",
     "content": "일정 내용",
     "name": "작성자 이름",
+    "commentCount": 1,
     "createdAt": "0000-00-00 00:00:00",
     "modifiedAt": "0000-00-00 00:00:00",
     "comments": [
@@ -226,6 +247,7 @@
             "id": 1,
             "content": "댓글 내용",
             "name": "댓글 작성자",
+            "userId": 1,
             "createdAt": "0000-00-00 00:00:00",
             "modifiedAt": "0000-00-00 00:00:00",
             "scheduleId": 1
@@ -256,6 +278,8 @@
     "title": "수정 제목",
     "content": "기존 내용",
     "name": "작성자 이름",
+    "commentCount": null,
+    "comments": null,
     "createdAt": "0000-00-00 00:00:00",
     "modifiedAt": "0000-00-00 00:00:00"
 }
@@ -269,8 +293,10 @@
 - Status Code: `200 OK`
 
 #### Response Body
-```
-할 일 제목이(가) 삭제되었습니다.
+```json
+{
+  "message": "일정 제목이(가) 삭제되었습니다."
+}
 ```
 <br>
 
@@ -279,6 +305,7 @@
 #### 3-1. 댓글 생성
 - Method: `POST`
 - URL: `/schedules/{scheduleId}/comments`
+- Path Parameter: `scheduleId`
 - Content-Type: `application/json`
 - Status Code: `201 Created`
 
@@ -295,6 +322,7 @@
     "id": 1,
     "name": "작성자 이름",
     "content": "댓글 내용",
+    "userId": 1,
     "scheduleId": 1,
     "createdAt": "0000-00-00 00:00:00",
     "modifiedAt": "0000-00-00 00:00:00"
@@ -316,6 +344,7 @@
       "name": "작성자 이름",
       "content": "댓글 내용",
       "scheduleId": 1,
+      "userId": 1,
       "createdAt": "0000-00-00 00:00:00",
       "modifiedAt": "0000-00-00 00:00:00"
     },
@@ -324,6 +353,7 @@
       "name": "작성자 이름",
       "content": "댓글 내용",
       "scheduleId": 1,
+      "userId": 1,
       "createdAt": "0000-00-00 00:00:00",
       "modifiedAt": "0000-00-00 00:00:00"
     }
@@ -352,6 +382,7 @@
     "content": "수정 내용",
     "name": "작성자 이름",
     "scheduleId": 1,
+    "userId": 1,
     "createdAt": "0000-00-00 00:00:00",
     "modifiedAt": "0000-00-00 00:00:00"
 }
@@ -365,8 +396,10 @@
 - Status Code: `200 OK`
 
 #### Response Body
-```
-댓글이(가) 삭제되었습니다.
+```json
+{
+  "message": "댓글이 삭제되었습니다."
+}
 ```
 <br><br>
 
