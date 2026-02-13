@@ -14,8 +14,6 @@ import org.example.schedulerdevelop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -31,15 +29,6 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
         User user = new User(requestDto.getName(), requestDto.getEmail(), encodedPassword);
         return new UserResponseDto(userRepository.save(user));
-    }
-
-    // 전체 조회 - readOnly로 불필요한 스냅샷 생성 방지
-    @Transactional(readOnly = true)
-    public List<UserResponseDto> getUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(UserResponseDto::new)
-                .toList();
     }
 
     // 단건 조회 - 공통 조회 메서드로 중복 제거

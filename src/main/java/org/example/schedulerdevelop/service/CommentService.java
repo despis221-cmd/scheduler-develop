@@ -41,19 +41,6 @@ public class CommentService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
-    public List<CommentResponseDto> getAllComments() {
-        return commentRepository.findAll()
-                .stream()
-                .map(CommentResponseDto::new)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public CommentResponseDto getComment(Long id) {
-        return new CommentResponseDto(findCommentById(id));
-    }
-
     @Transactional
     public CommentResponseDto updateComment(Long id, String content, Long loginUserId) {
         Comment comment = findCommentById(id);

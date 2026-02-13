@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,13 +29,6 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(responseDto);
-    }
-
-    // 전체 유저 조회
-    @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getUsers() {
-        List<UserResponseDto> users = userService.getUsers();
-        return ResponseEntity.ok(users);
     }
 
     // 단건 유저 조회
